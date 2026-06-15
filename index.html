@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduPro | Modern Learning Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="toast-container"></div>
+
+  <aside class="sidebar">
+    <div class="logo">
+      <i class="ri-book-open-fill"></i> EduPro
+    </div>
+    
+    <nav>
+      <a onclick="showSection('home')" class="nav-link active">
+        <i class="ri-home-4-line"></i> Home
+      </a>
+      
+      <div id="guest-nav">
+        <a onclick="showSection('register')" class="nav-link">
+          <i class="ri-user-add-line"></i> Register
+        </a>
+        <a onclick="showSection('login')" class="nav-link">
+          <i class="ri-login-circle-line"></i> Login
+        </a>
+      </div>
+
+      <div id="student-nav" style="display:none;">
+        <a onclick="showSection('student-dashboard')" class="nav-link">
+          <i class="ri-dashboard-line"></i> Dashboard
+        </a>
+      </div>
+
+      <div id="admin-nav" style="display:none;">
+        <a onclick="showSection('admin-dashboard')" class="nav-link">
+          <i class="ri-admin-line"></i> Instructor Panel
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a onclick="logoutUser()" id="logout-btn" style="display:none; color: #ff6b6b;">
+        <i class="ri-logout-box-line"></i> Logout
+      </a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <section id="home" class="section active">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1>Master New Skills <br><span>Anytime, Anywhere.</span></h1>
+          <p>The professional platform for students. Access courses, track progress, and earn certificates.</p>
+          <button onclick="showSection('register')" class="btn primary">Start Learning Now</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="register" class="section">
+      <div class="auth-wrapper">
+        <div class="auth-card">
+          <h2>Create Account</h2>
+          <p class="subtitle">Join our community today</p>
+          
+          <div class="input-group">
+            <i class="ri-user-line"></i>
+            <input id="reg-name" placeholder="Full Name">
+          </div>
+          <div class="input-group">
+            <i class="ri-mail-line"></i>
+            <input id="reg-email" placeholder="Email Address">
+          </div>
+          <div class="input-group">
+            <i class="ri-lock-line"></i>
+            <input id="reg-password" type="password" placeholder="Password">
+          </div>
+          <div class="input-group">
+            <i class="ri-shield-user-line"></i>
+            <select id="reg-role">
+              <option value="student">Student</option>
+              <option value="admin">Instructor / Admin</option>
+            </select>
+          </div>
+          
+          <button onclick="registerUser()" class="btn primary full-width">Sign Up</button>
+          <p class="switch-auth">Already have an account? <a onclick="showSection('login')">Login</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="login" class="section">
+      <div class="auth-wrapper">
+        <div class="auth-card">
+          <h2>Welcome Back</h2>
+          <p class="subtitle">Login to access your dashboard</p>
+          
+          <div class="input-group">
+            <i class="ri-mail-line"></i>
+            <input id="login-email" placeholder="Email Address">
+          </div>
+          <div class="input-group">
+            <i class="ri-lock-line"></i>
+            <input id="login-password" type="password" placeholder="Password">
+          </div>
+          
+          <button onclick="loginUser()" class="btn primary full-width">Login</button>
+          <p class="switch-auth">New here? <a onclick="showSection('register')">Create Account</a></p>
+          <p class="forgot-link"><a onclick="showSection('forgot')">Forgot Password?</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="forgot" class="section">
+      <div class="auth-wrapper">
+        <div class="auth-card">
+          <h2>Reset Password</h2>
+          <div class="input-group">
+            <i class="ri-mail-line"></i>
+            <input id="forgot-email" placeholder="Enter your registered email">
+          </div>
+          <button onclick="resetPassword()" class="btn primary full-width">Send Reset Link</button>
+          <button onclick="showSection('login')" class="btn secondary full-width" style="margin-top:10px">Back to Login</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="student-dashboard" class="section">
+      <header class="dash-header">
+        <div>
+          <h2>Student Portal</h2>
+          <p>Welcome back, <span id="studentNamePortal" class="highlight-text">User</span>!</p>
+        </div>
+        <button onclick="generateCertificate()" class="btn outline"><i class="ri-award-line"></i> Get Certificate</button>
+      </header>
+
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="icon-box blue"><i class="ri-file-text-line"></i></div>
+          <div><h3>Notes</h3><span id="stat-notes-count">0</span> Available</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon-box purple"><i class="ri-video-line"></i></div>
+          <div><h3>Videos</h3><span id="stat-videos-count">0</span> Available</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon-box green"><i class="ri-checkbox-circle-line"></i></div>
+          <div><h3>Quizzes</h3><span id="stat-quiz-score">0</span> Taken</div>
+        </div>
+      </div>
+
+      <div class="section-divider">
+        <h3><i class="ri-book-open-line"></i> Course Material (Notes)</h3>
+      </div>
+      <div class="grid" id="studentNotesList"></div>
+
+      <div class="section-divider">
+        <h3><i class="ri-play-circle-line"></i> Video Lectures</h3>
+      </div>
+      <div class="grid" id="studentVideosList"></div>
+
+      <div class="section-divider">
+        <h3><i class="ri-question-answer-line"></i> Assessments</h3>
+      </div>
+      <div class="grid" id="quizzesList"></div>
+    </section>
+
+    <section id="admin-dashboard" class="section">
+      <header class="dash-header">
+        <h2>Instructor Panel</h2>
+        <p>Manage content and users</p>
+      </header>
+
+      <div class="admin-grid">
+        <div class="card admin-card">
+          <h3><i class="ri-file-upload-line"></i> Upload Note</h3>
+          <input id="admin-note-title" placeholder="Topic Title (e.g. React Basics)">
+          <input type="file" id="admin-note-file" class="file-input">
+          <button onclick="adminUploadNote()" class="btn primary full-width">Upload Document</button>
+        </div>
+
+        <div class="card admin-card">
+          <h3><i class="ri-video-upload-line"></i> Upload Video</h3>
+          <input id="admin-video-title" placeholder="Video Title">
+          <input type="file" id="admin-video-file" class="file-input" accept="video/*">
+          <button onclick="adminUploadVideo()" class="btn primary full-width">Upload Video</button>
+        </div>
+      </div>
+
+      <div class="section-divider">
+        <h3>User Management</h3>
+      </div>
+      <div class="table-container">
+        <div id="adminUsersList"></div>
+      </div>
+    </section>
+
+    <div id="quizModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="quizTitleDisplay">Quiz</h3>
+          <span onclick="closeQuiz()" class="close-btn">&times;</span>
+        </div>
+        <div id="quizContent" class="modal-body"></div>
+        <div class="modal-footer">
+          <button onclick="closeQuiz()" class="btn secondary">Cancel</button>
+          <button onclick="submitQuiz()" class="btn primary">Submit Answers</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
